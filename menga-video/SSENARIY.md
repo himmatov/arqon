@@ -32,3 +32,9 @@ Ovoz yozishda quyidagi vaqtlarga moslang. Qavs ichidagilar — ekranda nima bo'l
 - Telefon/Instagram qo'shish: `animation.html` faylining boshidagi `CONTACT` qatoriga yozing, so'ng qayta render qiling:
   `node render.js menga-consulting-koreya.mp4 30` (Playwright + ffmpeg kerak).
 - Brauzerda ko'rish: `animation.html` ni oching (bosilsa boshidan boshlanadi).
+
+## Ovozli versiya
+- `menga-consulting-koreya-ovozli.mp4` — video + fon musiqasi + multfilm ovoz effektlari (gapirish ovozi yo'q).
+- `audio-sfx-music.wav` — faqat musiqa va effektlar, montaj dasturida alohida trek sifatida ishlatish uchun.
+- Qayta yaratish: `python3 make_audio.py`, so'ng
+  `ffmpeg -i menga-consulting-koreya.mp4 -i audio-sfx-music.wav -c:v copy -c:a aac -shortest menga-consulting-koreya-ovozli.mp4`
