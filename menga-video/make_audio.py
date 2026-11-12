@@ -109,7 +109,7 @@ def sad_trombone(start):
         vib = 1 + (0.012 * np.sin(2 * np.pi * 6 * t) if k == 3 else 0)
         ph = 2 * np.pi * np.cumsum(f * vib) / SR
         s = np.sin(ph) + 0.5 * np.sin(2 * ph) + 0.3 * np.sin(3 * ph)
-        add(sfx, start + k * 0.35, s * env(len(t), 0.02, 0.08) * 0.18)
+        add(sfx, start + k * 0.35, s * env(len(t), 0.02, 0.08) * 0.09)
 
 
 def engine(d):
@@ -123,7 +123,7 @@ def engine(d):
 
 def typing(start, nchars, speed=38):
     for k in range(0, nchars, 2):
-        add(sfx, start + k / speed, pop(1800 + rng.integers(0, 600)) * 0.07)
+        add(sfx, start + k / speed, pop(1800 + rng.integers(0, 600)) * 0.035)
 
 
 # transitions
@@ -158,7 +158,7 @@ add(sfx, 19.6, pop(), 0.4); typing(19.6, 40)
 n = int(SR * 1.1)
 add(sfx, 21.8, lowpass(rng.standard_normal(n), 2) * np.sin(np.linspace(0, np.pi, n)) * 0.3)  # brain steam
 add(sfx, 22.9, pop(), 0.4); typing(22.9, 28)
-add(sfx, 23.8, meow())
+add(sfx, 24.15, meow())
 add(sfx, 24.3, pop(600), 0.4)
 
 # 5. Yard
@@ -251,11 +251,26 @@ mix = np.tanh(mix * 1.1) * 0.85
 peak = np.max(np.abs(mix))
 mix = mix / peak * 0.89
 
-stereo = np.stack([mix, mix], axis=1)
-pcm = (stereo * 32767).astype("<i2")
-with wave.open("audio-sfx-music.wav", "wb") as w:
-    w.setnchannels(2)
-    w.setsampwidth(2)
-    w.setframerate(SR)
-    w.writeframes(pcm.tobytes())
+def save(name, x):
+    pcm = (np.stack([x, x], axis=1) * 32767).astype("<i2")
+    with wave.open(name, "wb") as w:
+        w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes())
+
+
+save("audio-sfx-music.wav", mix)
+
+# full mix with voice-over (music ducked under the voice)
+import os
+if os.path.exists("voice.wav"):
+    with wave.open("voice.wav") as w:
+        v = np.frombuffer(w.readframes(w.getnframes()), "<i2").astype(np.float64) / 32768
+    v = np.pad(v, (0, max(0, N - len(v))))[:N]
+    k = int(SR * 0.15)
+    e = np.convolve(np.abs(v), np.ones(k) / k, mode="same")
+    e = np.convolve((e > 0.01).astype(float), np.ones(k * 2) / (k * 2), mode="same")
+    duck = 1 - 0.65 * np.clip(e, 0, 1)
+    full = music * duck * 0.8 + sfx * 0.6 + v * 1.0
+    full = np.tanh(full * 1.05)
+    full = full / np.max(np.abs(full)) * 0.92
+    save("audio-full.wav", full)
 print("ok")

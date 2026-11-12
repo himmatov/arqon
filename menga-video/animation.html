@@ -521,12 +521,12 @@ function sRoom(lt,dur,t){
   blanket();
   if(momIn){
     const p=easeOut(prog(lt,4.2,4.7));
-    ona(lerp(1350,830,p),1890,0.95,{t,scarf:'#7B1FA2',eyes:'open',brow:1,mouth:isTalking(lt-4.6,'Koreya qochib ketmaydi! Avval idishlarni yuv!')?'talk':'angry',
+    ona(lerp(1350,830,p),1890,0.95,{t,scarf:'#7B1FA2',eyes:'open',brow:1,mouth:isTalking(lt-4.6,'Koreya qochmaydi! Avval idishlarni yuv!')?'talk':'angry',
       armL:2.6+Math.sin(lt*14)*0.35,itemL:'🩴',itemSize:150,armR:0.4,look:-1});
   }
   caption('Hammasi bitta K-dramadan boshlandi... 📱',lt-0.15);
   if(lt<4.2)bubble(520,580,900,'QAROR QILDIM!\nMen Koreyaga ketaman! 🇰🇷',lt-2.0,{tx:540,ty:940,size:56});
-  bubble(560,640,900,'Koreya qochib ketmaydi!\nAvval idishlarni yuv! 🧽',lt-4.6,{tx:820,ty:1280,size:54});
+  bubble(560,640,900,'Koreya qochmaydi!\nAvval idishlarni yuv! 🧽',lt-4.6,{tx:820,ty:1280,size:54});
 }
 const DOCS=['Apostil','Notarius','Bank spravka','Tarjima','Pasport','086-spravka','Diplom','Foto 3x4','Anketa','Spravkaning spravkasi','Kvitansiya','Attestat'];
 function sDocs(lt,dur,t){
@@ -592,7 +592,7 @@ function sStudy(lt,dur,t){
 function sYard(lt,dur,t){
   bgYard(t);
   caption('3-muammo: QO‘SHNILAR 👵',lt-0.15);
-  const B1='Koreyada sovuq!\nPaxtali chopon ol! 🧥',B2='U yoqda osh yo‘q!\nQozonni ham ol! 🍲',B3='Qaytishda kelin bilan kel! 👰';
+  const B1='Koreyada sovuq!\nPaxtali chopon ol! 🧥',B2='U yoqda osh yo‘q!\nQozon ol! 🍲',B3='Qaytishda kelin bilan kel! 👰';
   ona(185,1860,0.78,{t,scarf:'#E53935',mouth:(isTalking(lt-0.4,B1)||isTalking(lt-3.4,B3))?'talk':'smile',
     armR:(lt>0.4&&lt<1.8)||(lt>3.4&&lt<4.8)?2.2+Math.sin(lt*10)*0.3:0.4,armL:0.3,look:1,eyes:lt>3.4?'happy':'open'});
   const confused=lt>3.6;
@@ -649,7 +649,7 @@ function sHero(lt,dur,t){
 function sAirport(lt,dur,t){
   bgAirport(t);
   caption('Aeroport. Yuk tortiladi... ⚖️',lt-0.15);
-  const M1='Yana 5 ta non sol, bolam!\nU yoqda non yo‘q! 🫓',S1='Oyi, Koreyaga ketyapman,\nMarsga emas! 😅';
+  const M1='Yana non sol, bolam!\nU yoqda non yo‘q! 🫓',S1='Oyi, Koreyaga ketyapman,\nMarsga emas! 😅';
   const over=lt>1.6;
   ona(170,1870,0.78,{t,scarf:'#FB8C00',tears:true,eyes:'sad',mouth:isTalking(lt-0.8,M1)?'talk':'sad',armR:lt>0.8&&lt<3.2?2.1:0.6,itemR:lt>0.8&&lt<3.2?'🫓':null,itemSize:90,look:1});
   sardor(430,1870,0.78,{t,backpack:true,eyes:lt>3.2?'closed':'wide',mouth:isTalking(lt-3.2,S1)?'talk':(lt>3.2?'smile':'o'),sweat:over,armR:lt>3.2?2.0:0.3,armL:0.3,look:-1});
